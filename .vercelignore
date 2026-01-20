@@ -1,0 +1,8 @@
+node_modules
+.git
+.vscode
+*.log
+.DS_Store
+scripts
+GUIA_STORYTELLING.md
+GUIA_VISUALIZACION.md
