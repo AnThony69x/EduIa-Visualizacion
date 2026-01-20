@@ -4,9 +4,111 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-fondo: #0a0e27;
+  --color-fondo-secundario: #141b3d;
+  --color-primario: #00d9ff;
+  --color-secundario: #00ff9f;
+  --color-acento: #ff00ff;
+  --color-acento-2: #ffaa00;
+  --color-texto: #ffffff;
+  --color-texto-secundario: #a0aec0;
+  --fuente-principal: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
 body {
-  font-family: system-ui, sans-serif;
-  background-color: #020617;
-  color: #e5e7eb;
+  font-family: var(--fuente-principal);
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  line-height: 1.6;
   overflow-x: hidden;
+}
+
+.contenedor-principal {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Estilos de carga */
+.cargando {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--color-fondo) 0%, var(--color-fondo-secundario) 100%);
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(0, 217, 255, 0.1);
+  border-top-color: var(--color-primario);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cargando p {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: var(--color-texto-secundario);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-fondo);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-primario), var(--color-acento));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--color-secundario), var(--color-acento-2));
+}
+
+/* Tooltip para gráficos */
+.tooltip-grafico {
+  position: absolute;
+  background: rgba(20, 27, 61, 0.95);
+  border: 2px solid var(--color-primario);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.tooltip-grafico strong {
+  color: var(--color-primario);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
 }

@@ -1,0 +1,94 @@
+.seccion-estadisticas {
+  padding: 5rem 2rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(20, 27, 61, 0.3) 100%);
+}
+
+.grid-estadisticas {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.tarjeta-estadistica {
+  background: linear-gradient(135deg, rgba(20, 27, 61, 0.7) 0%, rgba(26, 31, 58, 0.5) 100%);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  text-align: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.tarjeta-estadistica::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-primario) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tarjeta-estadistica:hover {
+  transform: translateY(-10px);
+  border-color: var(--color-primario);
+  box-shadow: 0 10px 40px rgba(0, 217, 255, 0.3);
+}
+
+.tarjeta-estadistica:hover::before {
+  opacity: 1;
+}
+
+.icono-stat {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  filter: grayscale(0.3);
+}
+
+.numero-stat {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, #00d9ff 0%, #00ff9f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.etiqueta-stat {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--color-primario);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.8rem;
+}
+
+.descripcion-stat {
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  color: var(--color-texto-secundario);
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .seccion-estadisticas {
+    padding: 3rem 1rem;
+  }
+
+  .grid-estadisticas {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .tarjeta-estadistica {
+    padding: 2rem 1.5rem;
+  }
+}

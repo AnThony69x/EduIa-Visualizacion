@@ -1,0 +1,224 @@
+.seccion-objetivo {
+  min-height: 100vh;
+  padding: 6rem 2rem;
+  background: linear-gradient(180deg, var(--color-fondo) 0%, var(--color-fondo-secundario) 100%);
+  position: relative;
+}
+
+.seccion-objetivo::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-primario) 50%, transparent 100%);
+}
+
+.objetivo-2 {
+  background: linear-gradient(180deg, var(--color-fondo-secundario) 0%, #1a1f3a 100%);
+}
+
+.objetivo-2::before {
+  background: linear-gradient(90deg, transparent 0%, var(--color-acento) 50%, transparent 100%);
+}
+
+.objetivo-3 {
+  background: linear-gradient(180deg, #1a1f3a 0%, var(--color-fondo) 100%);
+}
+
+.objetivo-3::before {
+  background: linear-gradient(90deg, transparent 0%, var(--color-secundario) 50%, transparent 100%);
+}
+
+.contenido-objetivo {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.encabezado-objetivo {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.titulo-objetivo {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.descripcion-objetivo {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  color: var(--color-texto-secundario);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.grafico-contenedor {
+  margin-bottom: 5rem;
+  background: rgba(20, 27, 61, 0.5);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.grafico-contenedor:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px rgba(0, 217, 255, 0.2);
+}
+
+.titulo-grafico {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 700;
+  color: var(--color-primario);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.grafico {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  min-height: 500px;
+  overflow: visible;
+}
+
+.grafico svg {
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.grafico svg text {
+  user-select: none;
+  pointer-events: none;
+}
+
+.explicacion-grafico {
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  color: var(--color-texto-secundario);
+  text-align: center;
+  max-width: 700px;
+  margin: 2rem auto 0;
+  line-height: 1.8;
+  font-style: italic;
+}
+
+.conclusion-seccion {
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(255, 0, 255, 0.1) 100%);
+  border-radius: 15px;
+  padding: 2.5rem;
+  border-left: 4px solid var(--color-primario);
+  margin-top: 4rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.icono-conclusion-seccion {
+  font-size: 3rem;
+  flex-shrink: 0;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.texto-conclusion {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  color: #fff;
+  line-height: 1.8;
+  font-weight: 500;
+  text-align: left;
+  flex: 1;
+}
+
+.texto-conclusion strong {
+  color: var(--color-primario);
+  font-size: 1.1em;
+}
+
+/* Estilos para elementos D3 */
+.barra {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.barra:hover {
+  opacity: 1 !important;
+}
+
+.punto {
+  transition: all 0.2s;
+}
+
+.arco path {
+  transition: all 0.3s;
+}
+
+.etiqueta-valor {
+  pointer-events: none;
+}
+
+/* Estilos mejorados para ejes D3 */
+.grafico svg .domain {
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 2px;
+}
+
+.grafico svg .tick line {
+  stroke: rgba(255, 255, 255, 0.2);
+}
+
+.grafico svg .tick text {
+  fill: #fff !important;
+  font-weight: 500;
+}
+
+/* Mejoras de legibilidad para etiquetas largas */
+.grafico svg text {
+  text-shadow: 0 0 3px rgba(10, 14, 39, 0.8);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .seccion-objetivo {
+    padding: 4rem 1rem;
+  }
+
+  .grafico-contenedor {
+    padding: 2rem 1rem;
+  }
+
+  .grafico svg {
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .conclusion-seccion {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grafico {
+    min-height: 400px;
+  }
+  
+  .grafico svg {
+    transform: scale(0.85);
+    transform-origin: center center;
+  }
+}

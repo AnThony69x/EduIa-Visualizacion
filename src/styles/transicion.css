@@ -1,0 +1,88 @@
+.transicion-narrativa {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 217, 255, 0.03) 50%, transparent 100%);
+  position: relative;
+}
+
+.transicion-narrativa::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.contenido-transicion {
+  max-width: 900px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.estadistica-destacada {
+  margin-bottom: 3rem;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, rgba(20, 27, 61, 0.6) 0%, rgba(26, 31, 58, 0.4) 100%);
+  border-radius: 25px;
+  border: 2px solid rgba(0, 217, 255, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 217, 255, 0.15);
+}
+
+.numero-grande {
+  font-size: clamp(4rem, 10vw, 7rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, #00d9ff 0%, #00ff9f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.descripcion-estadistica {
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  color: var(--color-texto-secundario);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.texto-narrativo {
+  padding: 2rem;
+}
+
+.parrafo-principal {
+  font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+  color: #fff;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.contexto-adicional {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  color: var(--color-texto-secundario);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .transicion-narrativa {
+    min-height: 50vh;
+    padding: 3rem 1rem;
+  }
+
+  .estadistica-destacada {
+    padding: 2rem 1rem;
+  }
+}
