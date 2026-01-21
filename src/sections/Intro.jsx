@@ -13,34 +13,86 @@ const Intro = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animación de entrada del título
+      // Animación cinematográfica de entrada del título con blur y scale
       gsap.from(tituloRef.current, {
         opacity: 0,
-        y: 100,
-        duration: 1.2,
-        ease: "power3.out",
+        y: 150,
+        scale: 0.8,
+        filter: "blur(20px)",
+        duration: 1.5,
+        ease: "power4.out",
       });
 
-      // Animación del subtítulo con delay
+      // Efecto de glitch en el título
+      gsap.to(tituloRef.current, {
+        skewX: 2,
+        duration: 0.1,
+        repeat: 3,
+        yoyo: true,
+        delay: 1.5,
+        ease: "power1.inOut",
+      });
+
+      // Animación del subtítulo con efecto cinematográfico
       gsap.from(subtituloRef.current, {
         opacity: 0,
+        y: 80,
+        filter: "blur(10px)",
+        duration: 1.2,
+        delay: 0.4,
+        ease: "power4.out",
+      });
+
+      // Animación del texto descriptivo con fade-in y blur
+      gsap.from(textoRef.current.children, {
+        opacity: 0,
         y: 50,
+        filter: "blur(8px)",
+        stagger: 0.15,
         duration: 1,
-        delay: 0.3,
+        delay: 0.8,
         ease: "power3.out",
       });
 
-      // Animación del texto descriptivo
-      gsap.from(textoRef.current.children, {
-        opacity: 0,
-        y: 30,
-        stagger: 0.2,
-        duration: 0.8,
-        delay: 0.6,
-        ease: "power2.out",
+      // Efecto paralaje al hacer scroll - elementos se mueven a diferentes velocidades
+      gsap.to(tituloRef.current, {
+        scrollTrigger: {
+          trigger: seccionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+        y: -150,
+        opacity: 0.3,
+        scale: 0.9,
+        ease: "none",
       });
 
-      // Animación al hacer scroll
+      gsap.to(subtituloRef.current, {
+        scrollTrigger: {
+          trigger: seccionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+        y: -100,
+        opacity: 0.2,
+        ease: "none",
+      });
+
+      gsap.to(textoRef.current, {
+        scrollTrigger: {
+          trigger: seccionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+        y: -50,
+        opacity: 0,
+        ease: "none",
+      });
+
+      // Animación de fondo al hacer scroll
       gsap.to(seccionRef.current, {
         scrollTrigger: {
           trigger: seccionRef.current,

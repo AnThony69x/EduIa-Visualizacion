@@ -26,9 +26,26 @@ const ObjetivoReutilizacion = ({ datos }) => {
           toggleActions: "play none none none",
         },
         opacity: 0,
-        scale: 0.8,
-        duration: 1,
-        ease: "back.out(1.7)",
+        scale: 0.7,
+        rotationZ: 10,
+        filter: "blur(18px)",
+        duration: 1.4,
+        ease: "back.out(2)",
+      });
+
+      // Efecto de glitch más pronunciado
+      gsap.to(".titulo-objetivo-3", {
+        scrollTrigger: {
+          trigger: seccionRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+        skewX: 4,
+        duration: 0.1,
+        repeat: 3,
+        yoyo: true,
+        delay: 1.4,
+        ease: "steps(2)",
       });
 
       ScrollTrigger.create({

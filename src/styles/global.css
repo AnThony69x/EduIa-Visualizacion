@@ -4,6 +4,9 @@
   box-sizing: border-box;
 }
 
+/* Importar animaciones cinematográficas */
+@import './animaciones.css';
+
 :root {
   --color-fondo: #0a0e27;
   --color-fondo-secundario: #141b3d;

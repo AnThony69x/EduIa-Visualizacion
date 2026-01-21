@@ -19,7 +19,7 @@ const ObjetivoUso = ({ datos }) => {
     if (!datos || graficosCreados) return;
 
     const ctx = gsap.context(() => {
-      // Animación del título al entrar
+      // Animación cinematográfica del título con blur y scale
       gsap.from(".titulo-objetivo", {
         scrollTrigger: {
           trigger: seccionRef.current,
@@ -27,9 +27,26 @@ const ObjetivoUso = ({ datos }) => {
           toggleActions: "play none none none",
         },
         opacity: 0,
-        x: -100,
-        duration: 1,
-        ease: "power3.out",
+        x: -150,
+        scale: 0.9,
+        filter: "blur(15px)",
+        duration: 1.3,
+        ease: "power4.out",
+      });
+
+      // Efecto de glitch en el título
+      gsap.to(".titulo-objetivo", {
+        scrollTrigger: {
+          trigger: seccionRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+        skewX: 3,
+        duration: 0.08,
+        repeat: 2,
+        yoyo: true,
+        delay: 1.3,
+        ease: "power1.inOut",
       });
 
       // Animación del gráfico de barras

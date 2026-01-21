@@ -1,0 +1,302 @@
+/* Animaciones cinematográficas tipo GTA VI */
+
+/* Efecto de escaneo de líneas */
+@keyframes scan-lines {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
+
+/* Efecto de glitch */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* Efecto de parallax */
+@keyframes parallax-float {
+  0%, 100% {
+    transform: translateY(0) translateZ(0);
+  }
+  50% {
+    transform: translateY(-20px) translateZ(10px);
+  }
+}
+
+/* Efecto de partículas */
+.particulas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particula {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--color-primario);
+  border-radius: 50%;
+  animation: particula-float 10s ease-in-out infinite;
+  opacity: 0.6;
+  box-shadow: 0 0 10px var(--color-primario);
+}
+
+@keyframes particula-float {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(100px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Efecto de texto revelar */
+.texto-reveal {
+  position: relative;
+  overflow: hidden;
+}
+
+.texto-reveal::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, var(--color-primario) 50%, transparent 100%);
+  animation: reveal-shine 2s ease-in-out;
+}
+
+@keyframes reveal-shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Efecto de hover 3D en cards */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card-3d:hover {
+  transform: rotateY(5deg) rotateX(5deg) translateZ(20px);
+}
+
+/* Efecto de ondas de energía */
+@keyframes energy-wave {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.energy-ring {
+  position: absolute;
+  border: 2px solid var(--color-primario);
+  border-radius: 50%;
+  animation: energy-wave 3s ease-out infinite;
+}
+
+/* Efecto de chromatic aberration */
+.chromatic-text {
+  position: relative;
+  color: white;
+}
+
+.chromatic-text::before,
+.chromatic-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: screen;
+}
+
+.chromatic-text::before {
+  color: #00d9ff;
+  animation: chromatic-1 0.3s ease-in-out infinite alternate;
+}
+
+.chromatic-text::after {
+  color: #ff00ff;
+  animation: chromatic-2 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes chromatic-1 {
+  0% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(-2px, -2px);
+  }
+}
+
+@keyframes chromatic-2 {
+  0% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(2px, 2px);
+  }
+}
+
+/* Efecto de loading cinematográfico */
+.loading-cinematic {
+  position: relative;
+  width: 200px;
+  height: 4px;
+  background: rgba(0, 217, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loading-cinematic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent,
+    var(--color-primario) 50%,
+    transparent
+  );
+  animation: loading-slide 2s ease-in-out infinite;
+  box-shadow: 0 0 20px var(--color-primario);
+}
+
+@keyframes loading-slide {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
+/* Efecto de distorsión en hover */
+.distort-hover {
+  transition: all 0.3s ease;
+}
+
+.distort-hover:hover {
+  animation: distort-pulse 0.6s ease-in-out;
+}
+
+@keyframes distort-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.05) skewX(2deg);
+  }
+  75% {
+    transform: scale(0.98) skewX(-2deg);
+  }
+}
+
+/* Efecto de scanner */
+.scanner-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent,
+    var(--color-primario),
+    transparent
+  );
+  animation: scanner-move 3s ease-in-out infinite;
+  box-shadow: 0 0 20px var(--color-primario);
+}
+
+@keyframes scanner-move {
+  0%, 100% {
+    top: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* Efecto de hologram */
+.hologram {
+  position: relative;
+  animation: hologram-flicker 0.15s infinite;
+}
+
+@keyframes hologram-flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+.hologram::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 217, 255, 0.05) 0px,
+    transparent 2px,
+    transparent 4px,
+    rgba(0, 217, 255, 0.05) 4px
+  );
+  pointer-events: none;
+  animation: scan-lines 8s linear infinite;
+}
