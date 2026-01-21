@@ -108,8 +108,10 @@ const ObjetivoReutilizacion = ({ datos }) => {
       ? { top: 35, right: 30, bottom: 90, left: 70 }
       : { top: 40, right: 40, bottom: 90, left: 80 };
     
-    const width = Math.max(300, containerWidth - 40) - margin.left - margin.right;
-    const height = isMobile ? 350 : isTablet ? 400 : 450;
+    // Limitar ancho máximo para desktop
+    const maxWidth = isMobile ? containerWidth : isTablet ? 700 : 800;
+    const width = Math.min(Math.max(300, containerWidth - 40), maxWidth) - margin.left - margin.right;
+    const height = isMobile ? 350 : isTablet ? 400 : 500;
 
     const svg = d3
       .select(graficoSatisfaccionRef.current)
@@ -279,8 +281,10 @@ const ObjetivoReutilizacion = ({ datos }) => {
       ? { top: 35, right: 30, bottom: 120, left: 70 }
       : { top: 40, right: 40, bottom: 120, left: 80 };
     
-    const width = Math.max(300, containerWidth - 40) - margin.left - margin.right;
-    const height = isMobile ? 350 : isTablet ? 400 : 450;
+    // Limitar ancho máximo para desktop
+    const maxWidth = isMobile ? containerWidth : isTablet ? 700 : 800;
+    const width = Math.min(Math.max(300, containerWidth - 40), maxWidth) - margin.left - margin.right;
+    const height = isMobile ? 350 : isTablet ? 400 : 500;
 
     const svg = d3
       .select(graficoResultadoRef.current)

@@ -97,8 +97,10 @@ const ObjetivoUso = ({ datos }) => {
       ? { top: 35, right: 30, bottom: 100, left: 70 }
       : { top: 40, right: 40, bottom: 100, left: 80 };
     
-    const width = Math.max(300, containerWidth - 40) - margin.left - margin.right;
-    const height = isMobile ? 350 : isTablet ? 400 : 450;
+    // Limitar ancho máximo para desktop
+    const maxWidth = isMobile ? containerWidth : isTablet ? 700 : 800;
+    const width = Math.min(Math.max(300, containerWidth - 40), maxWidth) - margin.left - margin.right;
+    const height = isMobile ? 350 : isTablet ? 400 : 500;
 
     const svg = d3
       .select(graficoBarrasRef.current)
@@ -226,7 +228,7 @@ const ObjetivoUso = ({ datos }) => {
     const isMobile = window.innerWidth < 768;
     const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
     
-    const size = isMobile ? Math.min(350, containerWidth - 40) : isTablet ? 450 : 500;
+    const size = isMobile ? Math.min(350, containerWidth - 40) : isTablet ? 480 : 550;
     const width = size;
     const height = size;
     const radius = Math.min(width, height) / 2 - (isMobile ? 40 : 60);
