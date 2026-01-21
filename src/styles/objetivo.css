@@ -93,6 +93,8 @@
   max-width: 100%;
   height: auto;
   overflow: visible;
+  display: block;
+  margin: 0 auto;
 }
 
 .grafico svg text {
