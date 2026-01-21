@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as d3 from "d3";
+import imagen4 from "../assets/images/imagen4.png";
+import imagen5 from "../assets/images/imagen5.png";
 import { OBJETIVOS_ANALITICOS } from "../utils/objetivos";
 import "../styles/objetivo.css";
 
@@ -344,6 +346,7 @@ const ObjetivoSatisfaccion = ({ datos }) => {
         <div className="grafico-contenedor">
           <h3 className="titulo-grafico">El Mito del "Más es Mejor"</h3>
           <div ref={graficoScatterRef} className="grafico"></div>
+          <img src={imagen4} alt="Relación duración y satisfacción" className="imagen-grafico imagen-grafico-pequena" />
           <p className="explicacion-grafico">
             ⏰ <strong>Descubrimiento contraintuitivo:</strong> Las sesiones más 
             largas no garantizan mayor satisfacción. De hecho, la relación es más 
@@ -356,6 +359,7 @@ const ObjetivoSatisfaccion = ({ datos }) => {
         <div className="grafico-contenedor">
           <h3 className="titulo-grafico">El Factor Decisivo: Nivel de Asistencia</h3>
           <div ref={graficoBarrasRef} className="grafico"></div>
+          <img src={imagen5} alt="Nivel de asistencia y satisfacción" className="imagen-grafico" />
           <p className="explicacion-grafico">
             🎯 <strong>La correlación que importa:</strong> Cuando la IA realmente 
             ayuda (niveles de asistencia altos), la satisfacción se dispara. Esto 
