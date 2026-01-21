@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as d3 from "d3";
+import imagen7 from "../assets/images/imagen7.png";
+import imagen6 from "../assets/images/imagen6.png";
 import { OBJETIVOS_ANALITICOS } from "../utils/objetivos";
 import "../styles/objetivo.css";
 
@@ -419,6 +421,7 @@ const ObjetivoReutilizacion = ({ datos }) => {
         <div className="grafico-contenedor">
           <h3 className="titulo-grafico">Satisfacción vs Reutilización: Un Hallazgo Sorprendente</h3>
           <div ref={graficoSatisfaccionRef} className="grafico"></div>
+          <img src={imagen6} alt="Satisfacción vs Reutilización" className="imagen-grafico" />
           <p className="explicacion-grafico">
             🔍 <strong>Resultado contraintuitivo:</strong> La reutilización se mantiene 
             sorprendentemente estable (≈70%) independientemente del nivel de satisfacción. 
@@ -432,6 +435,7 @@ const ObjetivoReutilizacion = ({ datos }) => {
         <div className="grafico-contenedor">
           <h3 className="titulo-grafico">El Verdadero Predictor: Resultados Exitosos</h3>
           <div ref={graficoResultadoRef} className="grafico"></div>
+          <img src={imagen7} alt="Resultados exitosos" className="imagen-grafico" />
           <p className="explicacion-grafico">
             ✅ <strong>Aquí está el factor clave:</strong> A diferencia de la satisfacción, 
             el resultado final sí muestra una relación clara. Cuando los estudiantes logran 

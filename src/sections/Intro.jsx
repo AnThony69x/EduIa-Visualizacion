@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import imagen1 from "../assets/images/imagen1.png";
 import "../styles/intro.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -87,6 +88,7 @@ const Intro = () => {
             <span>↓</span>
             <p>Desliza para descubrir la historia</p>
           </div>
+          <img src={imagen1} alt="Introducción a EduIA" className="imagen-intro" />
         </div>
       </div>
     </section>

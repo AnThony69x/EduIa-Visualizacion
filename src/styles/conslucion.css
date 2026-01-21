@@ -35,6 +35,21 @@
   font-style: italic;
 }
 
+.imagen-intro-conclusiones {
+  display: block;
+  max-width: 90%;
+  height: auto;
+  margin: 2rem auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.imagen-intro-conclusiones:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 217, 255, 0.3);
+}
+
 .lista-conclusiones {
   display: flex;
   flex-direction: column;
@@ -200,5 +215,33 @@
   
   .firma {
     padding-top: 1.5rem;
+  }
+}
+
+.imagen-conclusion {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 6px 15px rgba(0, 217, 255, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.imagen-conclusion:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 25px rgba(0, 217, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .punto-conclusion {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .imagen-conclusion {
+    max-width: 100%;
+    width: 100%;
   }
 }

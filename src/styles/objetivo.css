@@ -272,3 +272,26 @@
     font-size: 2rem;
   }
 }
+
+.imagen-grafico {
+  display: block;
+  max-width: 50%;
+  height: auto;
+  margin: 1.5rem auto;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 217, 255, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.imagen-grafico:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 217, 255, 0.3);
+}
+
+.imagen-grafico-grande {
+  max-width: 85%;
+}
+
+.imagen-grafico-pequena {
+  max-width: 30%;
+}

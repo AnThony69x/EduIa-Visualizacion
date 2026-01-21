@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as d3 from "d3";
+import imagen2 from "../assets/images/imagen2.png";
+import imagen3 from "../assets/images/imagen3.png";
 import { OBJETIVOS_ANALITICOS } from "../utils/objetivos";
 import "../styles/objetivo.css";
 
@@ -403,6 +405,7 @@ const ObjetivoUso = ({ datos }) => {
         <div className="grafico-contenedor">
           <h3 className="titulo-grafico">El Perfil del Usuario: Quién Usa la IA</h3>
           <div ref={graficoBarrasRef} className="grafico"></div>
+          <img src={imagen2} alt="Perfil de usuario" className="imagen-grafico imagen-grafico-grande" />
           <p className="explicacion-grafico">
             📊 <strong>La historia comienza aquí:</strong> Los estudiantes de pregrado 
             dominan el uso de IA, representando la gran mayoría de las sesiones. 
@@ -414,6 +417,7 @@ const ObjetivoUso = ({ datos }) => {
         <div className="grafico-contenedor">
           <h3 className="titulo-grafico">El Propósito: Para Qué Recurren a la IA</h3>
           <div ref={graficoDonutRef} className="grafico"></div>
+          <img src={imagen3} alt="Propósito de uso" className="imagen-grafico" />
           <p className="explicacion-grafico">
             💡 <strong>Una revelación interesante:</strong> Aunque muchos piensan 
             que la IA solo se usa para escribir ensayos, los datos muestran una 

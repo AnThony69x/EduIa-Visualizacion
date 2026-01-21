@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import imagen8 from "../assets/images/imagen8.png";
 import "../styles/conslucion.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -56,6 +57,7 @@ const Conclusiones = () => {
             y un patrón emergente que no puede ser ignorado. La IA en la educación 
             no es el futuro — es el presente. Y los datos cuentan una historia clara.
           </p>
+          <img src={imagen8} alt="El comienzo de una era" className="imagen-intro-conclusiones" />
         </div>
 
         <div ref={puntosRef} className="lista-conclusiones">
@@ -146,8 +148,9 @@ const Conclusiones = () => {
             no solo en crear experiencias agradables.
           </p>
           <p className="firma">
-            <strong>EduIA</strong> — Donde los datos revelan verdades incómodas
+            <strong>EduIA</strong>
             <br />
+            <strong>Donde los datos revelan verdades incómodas</strong>
             <span className="fecha-firma">2026</span>
           </p>
         </div>
