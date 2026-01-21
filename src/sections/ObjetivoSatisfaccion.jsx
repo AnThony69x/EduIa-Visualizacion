@@ -26,9 +26,26 @@ const ObjetivoSatisfaccion = ({ datos }) => {
           toggleActions: "play none none none",
         },
         opacity: 0,
-        x: 100,
-        duration: 1,
-        ease: "power3.out",
+        x: 150,
+        rotationY: 45,
+        filter: "blur(12px)",
+        duration: 1.3,
+        ease: "power4.out",
+      });
+
+      // Efecto de glitch
+      gsap.to(".titulo-objetivo-2", {
+        scrollTrigger: {
+          trigger: seccionRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+        skewY: 2,
+        duration: 0.08,
+        repeat: 2,
+        yoyo: true,
+        delay: 1.3,
+        ease: "power1.inOut",
       });
 
       ScrollTrigger.create({
