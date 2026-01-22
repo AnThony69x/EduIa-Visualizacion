@@ -48,7 +48,10 @@
 .icono-stat {
   font-size: 3rem;
   margin-bottom: 1rem;
-  filter: grayscale(0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primario);
 }
 
 .numero-stat {
