@@ -376,21 +376,24 @@ const ObjetivoUso = ({ datos }) => {
       ? 420 
       : 500;
     
-    const legendHeight = isMobile ? 120 : isTablet ? 100 : 90;
+    const legendHeight = isMobile ? 180 : isTablet ? 120 : 100;
     const width = isMobile ? donutSize : isTablet ? 550 : 650;
     const height = donutSize + legendHeight;
     const radius = donutSize / 2 - (isMobile ? 35 : 45);
     const innerRadiusRatio = 0.65;
+    const fontSize = isMobile ? "11px" : isTablet ? "12px" : "13px";
 
-    const svg = d3
+    const svgElement = d3
       .select(graficoDonutRef.current)
       .append("svg")
       .attr("width", "100%")
       .attr("height", height)
       .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("preserveAspectRatio", "xMidYMid meet")
+      .attr("preserveAspectRatio", "xMidYMid meet");
+
+    const svg = svgElement
       .append("g")
-      .attr("transform", `translate(${width / 2},${height / 2})`);
+      .attr("transform", `translate(${width / 2},${donutSize / 2})`);
 
     // Escala de colores mejorada con paleta vibrante
     const color = d3
@@ -531,14 +534,13 @@ const ObjetivoUso = ({ datos }) => {
       .style("opacity", 1);
 
     // Leyenda mejorada con mejor layout
-    const legendGroup = d3
-      .select(graficoDonutRef.current)
-      .select("svg")
+    const legendGroup = svgElement
       .append("g")
       .attr("transform", `translate(0, ${donutSize + 40})`);
 
     const itemsPerRow = isMobile ? 1 : isTablet ? 2 : 3;
     const itemWidth = width / itemsPerRow;
+    const rowHeight = 30;
 
     datosArray.forEach((d, i) => {
       const row = Math.floor(i / itemsPerRow);
@@ -551,7 +553,7 @@ const ObjetivoUso = ({ datos }) => {
       
       const legendItem = legendGroup
         .append("g")
-        .attr("transform", `translate(${col * itemWidth + 20}, ${row * 30})`);
+        .attr("transform", `translate(${xPosition}, ${row * rowHeight})`);
 
       legendItem
         .append("rect")
@@ -562,17 +564,17 @@ const ObjetivoUso = ({ datos }) => {
         .attr("opacity", 0.9)
         .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.3))");
 
-      const legendText = legendItem
+      legendItem
         .append("text")
         .attr("x", isMobile ? 20 : 24)
-        .attr("y", isMobile ? 7 : 8)
+        .attr("y", 8)
         .attr("dy", "0.35em")
         .style("font-size", fontSize)
         .style("fill", "#fff")
         .style("font-weight", "500")
         .text(() => {
           const texto = `${d.tarea} (${d.porcentaje}%)`;
-          const maxLength = isMobile ? 25 : isTablet ? 35 : 40;
+          const maxLength = isMobile ? 22 : isTablet ? 28 : 35;
           return texto.length > maxLength ? texto.substring(0, maxLength - 3) + "..." : texto;
         });
     });

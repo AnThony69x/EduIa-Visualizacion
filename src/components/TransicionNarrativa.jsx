@@ -13,31 +13,35 @@ const TransicionNarrativa = ({ texto, estadistica, contexto }) => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Animación de la estadística destacada
-      gsap.from(estadisticaRef.current, {
-        scrollTrigger: {
-          trigger: seccionRef.current,
-          start: "top 70%",
-          toggleActions: "play none none none",
-        },
-        scale: 0.5,
-        opacity: 0,
-        duration: 1,
-        ease: "back.out(1.7)",
-      });
+      if (estadisticaRef.current) {
+        gsap.from(estadisticaRef.current, {
+          scrollTrigger: {
+            trigger: seccionRef.current,
+            start: "top 70%",
+            toggleActions: "play none none none",
+          },
+          scale: 0.5,
+          opacity: 0,
+          duration: 1,
+          ease: "back.out(1.7)",
+        });
+      }
 
       // Animación del texto narrativo
-      gsap.from(textoRef.current, {
-        scrollTrigger: {
-          trigger: textoRef.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.3,
-        ease: "power2.out",
-      });
+      if (textoRef.current) {
+        gsap.from(textoRef.current, {
+          scrollTrigger: {
+            trigger: textoRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          delay: 0.3,
+          ease: "power2.out",
+        });
+      }
     }, seccionRef);
 
     return () => ctx.revert();
