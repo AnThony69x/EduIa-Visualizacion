@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as d3 from "d3";
+import { BarChart3, Lightbulb, Brain } from "lucide-react";
+import imagen2 from "../assets/images/imagen2.png";
+import imagen3 from "../assets/images/imagen3.png";
 import { OBJETIVOS_ANALITICOS } from "../utils/objetivos";
 import "../styles/objetivo.css";
 
@@ -117,16 +120,16 @@ const ObjetivoUso = ({ datos }) => {
     const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
     
     const margin = isMobile 
-      ? { top: 30, right: 20, bottom: 100, left: 60 }
+      ? { top: 30, right: 20, bottom: 100, left: 70 }
       : isTablet
-      ? { top: 35, right: 30, bottom: 100, left: 70 }
-      : { top: 40, right: 40, bottom: 100, left: 80 };
+      ? { top: 35, right: 30, bottom: 100, left: 80 }
+      : { top: 40, right: 40, bottom: 100, left: 90 };
     
     // Desktop: tamaño fijo original, móvil/tablet: responsivo
     const width = isMobile || isTablet 
       ? Math.max(300, containerWidth - 40) - margin.left - margin.right
-      : 700 - margin.left - margin.right;
-    const height = isMobile ? 350 : isTablet ? 400 : 450;
+      : 800 - margin.left - margin.right;
+    const height = isMobile ? 400 : isTablet ? 450 : 500;
 
     const svg = d3
       .select(graficoBarrasRef.current)
@@ -143,54 +146,94 @@ const ObjetivoUso = ({ datos }) => {
       .scaleBand()
       .range([0, width])
       .domain(datosArray.map((d) => d.nivel))
-      .padding(0.3);
+      .padding(0.2);
 
     const y = d3
       .scaleLinear()
       .domain([0, d3.max(datosArray, (d) => d.cantidad)])
-      .range([height, 0]);
+      .range([height, 0])
+      .nice();
 
-    // Ejes
-    svg
+    // Escala de color basada en cantidad
+    const colorScale = d3.scaleSequential()
+      .domain([0, d3.max(datosArray, d => d.cantidad)])
+      .interpolator(d3.interpolateTurbo);
+
+    // Agregar grid horizontal para mejor legibilidad
+    svg.append("g")
+      .attr("class", "grid")
+      .attr("opacity", 0.1)
+      .call(
+        d3.axisLeft(y)
+          .tickSize(-width)
+          .tickFormat("")
+      )
+      .selectAll("line")
+      .style("stroke", "#fff");
+
+    // Eje X con mejor estilo
+    const xAxis = svg
       .append("g")
       .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(x))
-      .selectAll("text")
+      .call(d3.axisBottom(x).tickSizeOuter(0));
+
+    xAxis.selectAll("text")
       .attr("transform", "rotate(-45)")
       .style("text-anchor", "end")
-      .style("font-size", "13px")
+      .style("font-size", isMobile ? "11px" : "13px")
+      .style("font-weight", "500")
       .style("fill", "#fff")
       .attr("dx", "-0.5em")
       .attr("dy", "0.15em");
 
-    svg.append("g")
-      .call(d3.axisLeft(y))
-      .selectAll("text")
+    xAxis.selectAll("line, path")
+      .style("stroke", "#fff")
+      .style("stroke-width", 2);
+
+    // Eje Y con mejor estilo
+    const yAxis = svg.append("g")
+      .call(d3.axisLeft(y).ticks(isMobile ? 5 : 8).tickSizeOuter(0));
+
+    yAxis.selectAll("text")
       .style("font-size", "13px")
+      .style("font-weight", "500")
       .style("fill", "#fff");
 
-    // Etiquetas de ejes
+    yAxis.selectAll("line, path")
+      .style("stroke", "#fff")
+      .style("stroke-width", 2);
+
+    // Etiquetas de ejes con mejor estilo
     svg
       .append("text")
       .attr("x", width / 2)
-      .attr("y", height + 70)
+      .attr("y", height + 80)
       .style("text-anchor", "middle")
-      .style("font-size", "14px")
-      .style("fill", "#fff")
+      .style("font-size", "15px")
+      .style("font-weight", "600")
+      .style("fill", "#00d9ff")
       .text("Nivel Educativo");
 
     svg
       .append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", -50)
+      .attr("y", -60)
       .attr("x", -height / 2)
       .style("text-anchor", "middle")
-      .style("font-size", "14px")
-      .style("fill", "#fff")
+      .style("font-size", "15px")
+      .style("font-weight", "600")
+      .style("fill", "#00d9ff")
       .text("Número de Estudiantes");
 
-    // Crear barras con animación
-    svg
+    // Crear tooltip mejorado
+    const tooltip = d3
+      .select(graficoBarrasRef.current)
+      .append("div")
+      .attr("class", "tooltip-grafico")
+      .style("opacity", 0);
+
+    // Crear barras con gradientes y animación suave
+    const barras = svg
       .selectAll(".barra")
       .data(datosArray)
       .enter()
@@ -200,16 +243,50 @@ const ObjetivoUso = ({ datos }) => {
       .attr("width", x.bandwidth())
       .attr("y", height)
       .attr("height", 0)
-      .attr("fill", "#00d9ff")
-      .attr("opacity", 0.8)
+      .attr("fill", d => colorScale(d.cantidad))
+      .attr("rx", 4)
+      .attr("ry", 4)
+      .style("cursor", "pointer")
+      .on("mouseenter", function(event, d) {
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .attr("opacity", 1)
+          .attr("y", y(d.cantidad) - 5)
+          .attr("height", height - y(d.cantidad) + 5);
+
+        tooltip.transition().duration(200).style("opacity", 0.95);
+        tooltip
+          .html(
+            `<strong>${d.nivel}</strong><br/>
+             Estudiantes: <strong>${d.cantidad}</strong><br/>
+             Porcentaje: <strong>${((d.cantidad / d3.sum(datosArray, d => d.cantidad)) * 100).toFixed(1)}%</strong>`
+          )
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 28 + "px");
+      })
+      .on("mouseleave", function(event, d) {
+        d3.select(this)
+          .transition()
+          .duration(200)
+          .attr("opacity", 0.85)
+          .attr("y", y(d.cantidad))
+          .attr("height", height - y(d.cantidad));
+
+        tooltip.transition().duration(200).style("opacity", 0);
+      });
+
+    // Animación de entrada con easing suave
+    barras
+      .attr("opacity", 0.85)
       .transition()
-      .duration(1500)
-      .delay((d, i) => i * 100)
+      .duration(1200)
+      .delay((d, i) => i * 80)
       .attr("y", (d) => y(d.cantidad))
       .attr("height", (d) => height - y(d.cantidad))
-      .ease(d3.easeBounceOut);
+      .ease(d3.easeCubicOut);
 
-    // Agregar valores encima de las barras
+    // Agregar valores encima de las barras con mejor estilo
     svg
       .selectAll(".etiqueta-valor")
       .data(datosArray)
@@ -219,15 +296,47 @@ const ObjetivoUso = ({ datos }) => {
       .attr("x", (d) => x(d.nivel) + x.bandwidth() / 2)
       .attr("y", height)
       .attr("text-anchor", "middle")
-      .style("font-size", "12px")
-      .style("font-weight", "bold")
+      .style("font-size", isMobile ? "11px" : "13px")
+      .style("font-weight", "700")
       .style("fill", "#fff")
       .style("opacity", 0)
+      .style("text-shadow", "0 0 5px rgba(0,0,0,0.8)")
       .text((d) => d.cantidad)
       .transition()
+      .duration(800)
+      .delay((d, i) => i * 80 + 600)
+      .attr("y", (d) => y(d.cantidad) - 12)
+      .style("opacity", 1);
+
+    // Agregar línea de promedio
+    const promedio = d3.mean(datosArray, d => d.cantidad);
+    
+    svg.append("line")
+      .attr("x1", 0)
+      .attr("x2", width)
+      .attr("y1", y(promedio))
+      .attr("y2", y(promedio))
+      .attr("stroke", "#ff0066")
+      .attr("stroke-width", 2.5)
+      .attr("stroke-dasharray", "8,4")
+      .attr("opacity", 0)
+      .transition()
       .duration(1000)
-      .delay((d, i) => i * 100 + 500)
-      .attr("y", (d) => y(d.cantidad) - 10)
+      .delay(1200)
+      .attr("opacity", 0.8);
+
+    svg.append("text")
+      .attr("x", width - 5)
+      .attr("y", y(promedio) - 8)
+      .attr("text-anchor", "end")
+      .style("font-size", "12px")
+      .style("font-weight", "600")
+      .style("fill", "#ff0066")
+      .style("opacity", 0)
+      .text(`Promedio: ${promedio.toFixed(0)}`)
+      .transition()
+      .duration(800)
+      .delay(1400)
       .style("opacity", 1);
   };
 
@@ -247,7 +356,7 @@ const ObjetivoUso = ({ datos }) => {
     const datosArray = Array.from(datosPorTarea, ([tarea, cantidad]) => ({
       tarea,
       cantidad,
-    }));
+    })).sort((a, b) => b.cantidad - a.cantidad);
 
     // Calcular total y porcentajes
     const total = d3.sum(datosArray, d => d.cantidad);
@@ -260,17 +369,18 @@ const ObjetivoUso = ({ datos }) => {
     const isMobile = window.innerWidth < 768;
     const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
     
-    // Desktop: tamaño fijo original con espacio para leyenda abajo
+    // Desktop: tamaño mejorado con espacio para leyenda
     const donutSize = isMobile 
-      ? Math.min(300, containerWidth - 40) 
+      ? Math.min(320, containerWidth - 40) 
       : isTablet 
-      ? 400 
-      : 450;
+      ? 420 
+      : 500;
     
-    const legendHeight = isMobile ? 190 : isTablet ? 100 : 90; // Más espacio en móvil para 5 items
+    const legendHeight = isMobile ? 120 : isTablet ? 100 : 90;
     const width = isMobile ? donutSize : isTablet ? 550 : 650;
     const height = donutSize + legendHeight;
-    const radius = donutSize / 2 - (isMobile ? 30 : 40);
+    const radius = donutSize / 2 - (isMobile ? 35 : 45);
+    const innerRadiusRatio = 0.65;
 
     const svg = d3
       .select(graficoDonutRef.current)
@@ -280,31 +390,41 @@ const ObjetivoUso = ({ datos }) => {
       .attr("viewBox", `0 0 ${width} ${height}`)
       .attr("preserveAspectRatio", "xMidYMid meet")
       .append("g")
-      .attr("transform", `translate(${width / 2},${donutSize / 2})`);
+      .attr("transform", `translate(${width / 2},${height / 2})`);
 
-    // Escala de colores
+    // Escala de colores mejorada con paleta vibrante
     const color = d3
       .scaleOrdinal()
       .domain(datosArray.map((d) => d.tarea))
-      .range(["#00d9ff", "#00ff9f", "#ff00ff", "#ffaa00", "#ff0066"]);
+      .range(["#00d9ff", "#00ff9f", "#ff00ff", "#ffaa00", "#ff0066", "#7c3aed", "#10b981"]);
 
-    // Crear arcos
+    // Crear arcos con bordes más suaves
     const pie = d3
       .pie()
       .value((d) => d.cantidad)
-      .sort(null);
+      .sort(null)
+      .padAngle(0.02);
 
     const arc = d3
       .arc()
-      .innerRadius(radius * 0.6)
-      .outerRadius(radius);
+      .innerRadius(radius * innerRadiusRatio)
+      .outerRadius(radius)
+      .cornerRadius(4);
 
     const arcHover = d3
       .arc()
-      .innerRadius(radius * 0.6)
-      .outerRadius(radius * 1.08);
+      .innerRadius(radius * innerRadiusRatio - 5)
+      .outerRadius(radius * 1.1)
+      .cornerRadius(4);
 
-    // Dibujar arcos con animación
+    // Crear tooltip mejorado
+    const tooltip = d3
+      .select(graficoDonutRef.current)
+      .append("div")
+      .attr("class", "tooltip-grafico")
+      .style("opacity", 0);
+
+    // Dibujar arcos con animación mejorada
     const arcos = svg
       .selectAll(".arco")
       .data(pie(datosArray))
@@ -316,27 +436,44 @@ const ObjetivoUso = ({ datos }) => {
       .append("path")
       .attr("d", arc)
       .attr("fill", (d) => color(d.data.tarea))
-      .attr("opacity", 0.85)
+      .attr("opacity", 0.9)
       .attr("stroke", "#0a0e27")
-      .attr("stroke-width", 2)
+      .attr("stroke-width", 3)
       .style("cursor", "pointer")
+      .style("filter", "drop-shadow(0 4px 6px rgba(0,0,0,0.3))")
       .on("mouseenter", function (event, d) {
         d3.select(this)
           .transition()
-          .duration(200)
+          .duration(250)
           .attr("d", arcHover)
-          .attr("opacity", 1);
+          .attr("opacity", 1)
+          .style("filter", "drop-shadow(0 8px 12px rgba(0,0,0,0.5))");
+
+        tooltip.transition().duration(200).style("opacity", 0.95);
+        tooltip
+          .html(
+            `<strong style="color: ${color(d.data.tarea)}">${d.data.tarea}</strong><br/>
+             Sesiones: <strong>${d.data.cantidad}</strong><br/>
+             Porcentaje: <strong>${d.data.porcentaje}%</strong><br/>
+             <small>Del total de ${total} sesiones</small>`
+          )
+          .style("left", event.pageX + 10 + "px")
+          .style("top", event.pageY - 28 + "px");
       })
       .on("mouseleave", function (event, d) {
         d3.select(this)
           .transition()
-          .duration(200)
+          .duration(250)
           .attr("d", arc)
-          .attr("opacity", 0.85);
+          .attr("opacity", 0.9)
+          .style("filter", "drop-shadow(0 4px 6px rgba(0,0,0,0.3))");
+        
+        tooltip.transition().duration(200).style("opacity", 0);
       })
       .transition()
-      .duration(1500)
-      .delay((d, i) => i * 150)
+      .duration(1400)
+      .delay((d, i) => i * 120)
+      .ease(d3.easeCubicOut)
       .attrTween("d", function (d) {
         const interpolate = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
         return function (t) {
@@ -344,34 +481,64 @@ const ObjetivoUso = ({ datos }) => {
         };
       });
 
-    // Agregar porcentajes dentro del donut
+    // Agregar porcentajes dentro del donut con mejor posicionamiento
     arcos
       .append("text")
-      .attr("transform", (d) => `translate(${arc.centroid(d)})`)
+      .attr("transform", (d) => {
+        const centroid = arc.centroid(d);
+        return `translate(${centroid})`;
+      })
       .attr("dy", "0.35em")
       .style("text-anchor", "middle")
-      .style("font-size", isMobile ? "11px" : isTablet ? "13px" : "14px")
-      .style("font-weight", "bold")
+      .style("font-size", isMobile ? "12px" : isTablet ? "14px" : "16px")
+      .style("font-weight", "700")
       .style("fill", "#fff")
-      .style("text-shadow", "0 0 3px rgba(0,0,0,0.8)")
+      .style("text-shadow", "0 0 8px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.9)")
+      .style("pointer-events", "none")
       .style("opacity", 0)
       .text((d) => `${d.data.porcentaje}%`)
       .transition()
       .duration(800)
-      .delay(1500)
+      .delay(1600)
       .style("opacity", 1);
 
-    // Leyenda horizontal abajo
+    // Agregar texto central con estadística destacada
+    const centerGroup = svg.append("g")
+      .attr("class", "center-text")
+      .style("opacity", 0);
+
+    centerGroup.append("text")
+      .attr("text-anchor", "middle")
+      .attr("dy", "-0.5em")
+      .style("font-size", isMobile ? "28px" : "36px")
+      .style("font-weight", "900")
+      .style("fill", "#00d9ff")
+      .text(total);
+
+    centerGroup.append("text")
+      .attr("text-anchor", "middle")
+      .attr("dy", "1.2em")
+      .style("font-size", isMobile ? "12px" : "14px")
+      .style("font-weight", "600")
+      .style("fill", "#fff")
+      .style("opacity", 0.8)
+      .text("Sesiones Totales");
+
+    centerGroup
+      .transition()
+      .duration(1000)
+      .delay(1800)
+      .style("opacity", 1);
+
+    // Leyenda mejorada con mejor layout
     const legendGroup = d3
       .select(graficoDonutRef.current)
       .select("svg")
       .append("g")
-      .attr("transform", `translate(0, ${donutSize + 20})`);
+      .attr("transform", `translate(0, ${donutSize + 40})`);
 
     const itemsPerRow = isMobile ? 1 : isTablet ? 2 : 3;
     const itemWidth = width / itemsPerRow;
-    const rowHeight = isMobile ? 35 : 30; // Mayor separación en móvil
-    const fontSize = isMobile ? "12px" : isTablet ? "12px" : "13px";
 
     datosArray.forEach((d, i) => {
       const row = Math.floor(i / itemsPerRow);
@@ -384,17 +551,18 @@ const ObjetivoUso = ({ datos }) => {
       
       const legendItem = legendGroup
         .append("g")
-        .attr("transform", `translate(${xPosition}, ${row * rowHeight})`);
+        .attr("transform", `translate(${col * itemWidth + 20}, ${row * 30})`);
 
       legendItem
         .append("rect")
-        .attr("width", isMobile ? 14 : 16)
-        .attr("height", isMobile ? 14 : 16)
+        .attr("width", 16)
+        .attr("height", 16)
         .attr("rx", 3)
         .attr("fill", color(d.tarea))
-        .attr("opacity", 0.85);
+        .attr("opacity", 0.9)
+        .style("filter", "drop-shadow(0 2px 4px rgba(0,0,0,0.3))");
 
-      legendItem
+      const legendText = legendItem
         .append("text")
         .attr("x", isMobile ? 20 : 24)
         .attr("y", isMobile ? 7 : 8)
@@ -404,7 +572,7 @@ const ObjetivoUso = ({ datos }) => {
         .style("font-weight", "500")
         .text(() => {
           const texto = `${d.tarea} (${d.porcentaje}%)`;
-          const maxLength = isMobile ? 30 : isTablet ? 35 : 40;
+          const maxLength = isMobile ? 25 : isTablet ? 35 : 40;
           return texto.length > maxLength ? texto.substring(0, maxLength - 3) + "..." : texto;
         });
     });
@@ -427,6 +595,7 @@ const ObjetivoUso = ({ datos }) => {
         <div className="grafico-contenedor">
           <h3 className="titulo-grafico">El Perfil del Usuario: Quién Usa la IA</h3>
           <div ref={graficoBarrasRef} className="grafico"></div>
+          <img src={imagen2} alt="Perfil de usuario" className="imagen-grafico imagen-grafico-grande" />
           <p className="explicacion-grafico">
             📊 <strong>La historia comienza aquí:</strong> Los estudiantes de pregrado 
             dominan el uso de IA, representando la gran mayoría de las sesiones. 
@@ -438,8 +607,9 @@ const ObjetivoUso = ({ datos }) => {
         <div className="grafico-contenedor">
           <h3 className="titulo-grafico">El Propósito: Para Qué Recurren a la IA</h3>
           <div ref={graficoDonutRef} className="grafico"></div>
+          <img src={imagen3} alt="Propósito de uso" className="imagen-grafico" />
           <p className="explicacion-grafico">
-            💡 <strong>Una revelación interesante:</strong> Aunque muchos piensan 
+            <Lightbulb className="icono-inline" size={20} strokeWidth={1.5} /> <strong>Una revelación interesante:</strong> Aunque muchos piensan 
             que la IA solo se usa para escribir ensayos, los datos muestran una 
             diversidad sorprendente. Desde estudiar conceptos difíciles hasta 
             depurar código, la IA se ha convertido en un asistente multifacético.
@@ -447,7 +617,7 @@ const ObjetivoUso = ({ datos }) => {
         </div>
 
         <div className="conclusion-seccion">
-          <div className="icono-conclusion-seccion">💭</div>
+          <Brain className="icono-conclusion-seccion" size={40} strokeWidth={1.5} />
           <p className="texto-conclusion">
             <strong>Insight Clave:</strong> La IA no está reemplazando el aprendizaje, 
             está democratizándolo. Estudiantes de todos los niveles la usan como un 

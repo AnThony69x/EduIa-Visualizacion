@@ -192,3 +192,36 @@
     letter-spacing: -1px;
   }
 }
+
+.imagen-intro {
+  margin-top: 2rem;
+  max-width: 80%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: imagenAppear 2.5s ease-out forwards;
+}
+
+@keyframes imagenAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: brightness(1.2);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: brightness(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: brightness(0.65);
+  }
+}
+
+.imagen-intro:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 217, 255, 0.3);
+}

@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { BookOpen, Lightbulb, Trophy, Target, Rocket } from "lucide-react";
+import imagen8 from "../assets/images/imagen8.png";
 import "../styles/conslucion.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -56,11 +58,12 @@ const Conclusiones = () => {
             y un patrón emergente que no puede ser ignorado. La IA en la educación 
             no es el futuro — es el presente. Y los datos cuentan una historia clara.
           </p>
+          <img src={imagen8} alt="El comienzo de una era" className="imagen-intro-conclusiones" />
         </div>
 
         <div ref={puntosRef} className="lista-conclusiones">
           <div className="punto-conclusion">
-            <div className="icono-conclusion">📚</div>
+            <BookOpen className="icono-conclusion" size={48} strokeWidth={1.5} />
             <div className="texto-punto">
               <h3>Capítulo 1: La Adopción Es Real</h3>
               <p>
@@ -73,13 +76,13 @@ const Conclusiones = () => {
           </div>
 
           <div className="punto-conclusion">
-            <div className="icono-conclusion">💡</div>
+            <Lightbulb className="icono-conclusion" size={48} strokeWidth={1.5} />
             <div className="texto-punto">
               <h3>Capítulo 2: La Calidad Sobre la Cantidad</h3>
               <p>
                 Una lección contraintuitiva: pasar más tiempo no significa mejores 
                 resultados. Los estudiantes más satisfechos tienen sesiones enfocadas 
-                y efectivas. La IA que verdaderamente ayuda no necesita horas de tu 
+                y efectivas. La ía que verdaderamente ayuda no necesita horas de tu 
                 tiempo, necesita entender lo que necesitas. Es la diferencia entre 
                 un tutor que divaga y uno que va directo al punto.
               </p>
@@ -87,7 +90,7 @@ const Conclusiones = () => {
           </div>
 
           <div className="punto-conclusion">
-            <div className="icono-conclusion">⭐</div>
+            <Trophy className="icono-conclusion" size={48} strokeWidth={1.5} />
             <div className="texto-punto">
               <h3>Capítulo 3: Resultados &gt; Satisfacción</h3>
               <p>
@@ -102,7 +105,7 @@ const Conclusiones = () => {
           </div>
 
           <div className="punto-conclusion">
-            <div className="icono-conclusion">🎯</div>
+            <Target className="icono-conclusion" size={48} strokeWidth={1.5} />
             <div className="texto-punto">
               <h3>Capítulo 4: El Éxito Es Contagioso</h3>
               <p>
@@ -116,7 +119,7 @@ const Conclusiones = () => {
           </div>
 
           <div className="punto-conclusion">
-            <div className="icono-conclusion">🚀</div>
+            <Rocket className="icono-conclusion" size={48} strokeWidth={1.5} />
             <div className="texto-punto">
               <h3>Epílogo: La Nueva Normalidad</h3>
               <p>
@@ -146,8 +149,9 @@ const Conclusiones = () => {
             no solo en crear experiencias agradables.
           </p>
           <p className="firma">
-            <strong>EduIA</strong> — Donde los datos revelan verdades incómodas
+            <strong>EduIA</strong>
             <br />
+            <strong>Donde los datos revelan verdades incómodas</strong>
             <span className="fecha-firma">2026</span>
           </p>
         </div>
