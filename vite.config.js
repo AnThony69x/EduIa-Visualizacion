@@ -36,7 +36,7 @@ export default defineConfig({
   },
   // Optimizaciones de dependencias
   optimizeDeps: {
-    include: ['react', 'react-dom', 'd3', 'gsap', 'recharts', 'papaparse'],
+    include: ['react', 'react-dom', 'd3', 'gsap', 'recharts'],
   },
   // Prefetch de módulos
   server: {
