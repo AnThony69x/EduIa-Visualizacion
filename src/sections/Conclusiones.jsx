@@ -102,7 +102,7 @@ const Conclusiones = () => {
           <div className="punto-conclusion">
             <Trophy className="icono-conclusion" size={48} strokeWidth={1.5} />
             <div className="texto-punto">
-              <h3>🎯 Lección #3: Resultados > Sentimientos (El Plot Twist)</h3>
+              <h3>🎯 Lección #3: Resultados &gt; Sentimientos (El Plot Twist)</h3>
               <p>
                 Aquí está el hallazgo que desafía la sabiduría convencional: la satisfacción 
                 <em>no predice</em> si volverán. Lo que importa es si <strong>lograron su objetivo</strong>. 
