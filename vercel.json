@@ -89,20 +89,10 @@
       ]
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/datos_limpios.csv",
-      "dest": "/datos_limpios.csv",
-      "headers": {
-        "Content-Type": "text/csv; charset=utf-8"
-      }
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "trailingSlash": false,
