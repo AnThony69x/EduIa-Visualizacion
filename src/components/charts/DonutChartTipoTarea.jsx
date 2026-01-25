@@ -355,7 +355,7 @@ const DonutChartTipoTarea = memo(({ datos, onReady }) => {
       const row = Math.floor(i / itemsPerRow);
       const col = i % itemsPerRow;
       
-      const xPosition = isMobile ? 15 : col * itemWidth + 20;
+      const xPosition = isMobile ? 10 : col * itemWidth + 20;
       
       const legendItem = legendGroup.append("g")
         .attr("transform", `translate(${xPosition}, ${row * rowHeight})`)
@@ -378,23 +378,23 @@ const DonutChartTipoTarea = memo(({ datos, onReady }) => {
         });
 
       legendItem.append("rect")
-        .attr("width", isMobile ? 14 : 18)
-        .attr("height", isMobile ? 14 : 18)
-        .attr("rx", 4)
+        .attr("width", isMobile ? 12 : 18)
+        .attr("height", isMobile ? 12 : 18)
+        .attr("rx", 3)
         .attr("fill", color(d.tarea))
         .attr("opacity", seleccionado === d.tarea ? 1 : 0.8)
         .style("filter", seleccionado === d.tarea ? `drop-shadow(0 0 8px ${color(d.tarea)})` : "none");
 
       legendItem.append("text")
-        .attr("x", isMobile ? 20 : 26)
-        .attr("y", isMobile ? 7 : 9)
+        .attr("x", isMobile ? 18 : 26)
+        .attr("y", isMobile ? 6 : 9)
         .attr("dy", "0.35em")
-        .style("font-size", isMobile ? "10px" : fontSize)
+        .style("font-size", isMobile ? "12px" : fontSize)
         .style("fill", seleccionado === d.tarea ? "#fff" : "#ccc")
         .style("font-weight", seleccionado === d.tarea ? "600" : "500")
         .text(() => {
           const texto = `${d.tarea} (${d.porcentaje}%)`;
-          const maxLength = isMobile ? 30 : isTablet ? 30 : 35;
+          const maxLength = isMobile ? 28 : isTablet ? 30 : 35;
           return texto.length > maxLength ? texto.substring(0, maxLength - 3) + "..." : texto;
         });
     });
