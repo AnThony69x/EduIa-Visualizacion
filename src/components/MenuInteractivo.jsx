@@ -37,7 +37,6 @@ const MenuInteractivo = () => {
 
   // Inicializar audio
   useEffect(() => {
-    // Coloca tu archivo de música en public/audio/ con este nombre
     audioRef.current = new Audio("/audio/musica-fondo.mp3");
     audioRef.current.loop = true;
     audioRef.current.volume = 0.3;
