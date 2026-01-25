@@ -71,6 +71,7 @@ const LollipopChartResultado = memo(({ datos, onReady }) => {
     const containerWidth = containerRef.current.clientWidth || 350;
     const isMobile = window.innerWidth < 768;
     const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+    const isDesktop = window.innerWidth >= 1024;
 
     // Wrapper
     const wrapper = d3.select(containerRef.current)
@@ -115,32 +116,42 @@ const LollipopChartResultado = memo(({ datos, onReady }) => {
         .on("click", () => setOrdenActivo(opcion.id));
     });
 
-    // Márgenes del gráfico
+    // Márgenes del gráfico - más espacio en desktop para las etiquetas
     const margin = isMobile 
       ? { top: 30, right: 60, bottom: 50, left: 120 }
       : isTablet
       ? { top: 35, right: 70, bottom: 55, left: 180 }
-      : { top: 40, right: 80, bottom: 60, left: 260 };
+      : { top: 40, right: 120, bottom: 60, left: 180 };
     
-    const width = Math.max(200, containerWidth - margin.left - margin.right - 20);
-    const height = isMobile ? 280 : isTablet ? 340 : 400;
+    // Calcular ancho disponible de forma más inteligente
+    const availableWidth = Math.max(400, containerWidth - 40);
+    const width = isMobile 
+      ? Math.max(200, availableWidth - margin.left - margin.right)
+      : isTablet
+      ? Math.max(300, availableWidth - margin.left - margin.right)
+      : Math.max(500, availableWidth - margin.left - margin.right);
+    
+    const height = isMobile ? 280 : isTablet ? 340 : 320;
 
-    const svgContainer = wrapper.append("div").style("position", "relative");
+    const svgContainer = wrapper.append("div")
+      .style("position", "relative")
+      .style("width", "100%")
+      .style("overflow-x", isMobile ? "auto" : "visible");
 
     const svg = svgContainer
       .append("svg")
-      .attr("width", isMobile || isTablet ? "100%" : width + margin.left + margin.right)
+      .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
       .attr("preserveAspectRatio", "xMidYMid meet")
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Escalas
+    // Escalas - padding más pequeño en desktop para barras más separadas
     const y = d3.scaleBand()
       .range([0, height])
       .domain(datosArray.map((d) => d.resultado))
-      .padding(0.4);
+      .padding(isMobile ? 0.4 : isTablet ? 0.35 : 0.3);
 
     const x = d3.scaleLinear()
       .domain([0, 100])

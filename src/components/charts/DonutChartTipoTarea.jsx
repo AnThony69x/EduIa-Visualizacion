@@ -49,19 +49,22 @@ const DonutChartTipoTarea = memo(({ datos, onReady }) => {
     const containerWidth = containerRef.current.clientWidth || 350;
     const isMobile = window.innerWidth < 768;
     const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+    const isLargeDesktop = window.innerWidth >= 1440;
     
     const donutSize = isMobile 
       ? Math.max(200, Math.min(260, containerWidth - 40)) 
       : isTablet 
       ? 380 
-      : 450;
+      : isLargeDesktop
+      ? 580
+      : 520;
     
     const radius = Math.max(80, donutSize / 2 - (isMobile ? 15 : 45));
     const legendHeight = isMobile ? 220 : isTablet ? 160 : 140;
-    const width = isMobile ? Math.max(320, containerWidth) : isTablet ? 550 : 700;
-    const height = (radius * 2) + legendHeight + (seleccionado ? 200 : 0) + (isMobile ? 80 : 60);
+    const width = isMobile ? Math.max(320, containerWidth) : isTablet ? 550 : Math.max(900, containerWidth - 40);
+    const height = (radius * 2) + legendHeight + (seleccionado ? 200 : 0) + (isMobile ? 80 : 100);
     const innerRadiusRatio = 0.5;
-    const fontSize = isMobile ? "11px" : isTablet ? "12px" : "13px";
+    const fontSize = isMobile ? "11px" : isTablet ? "12px" : "14px";
 
     // Contenedor principal
     const wrapper = d3.select(containerRef.current)
@@ -279,7 +282,7 @@ const DonutChartTipoTarea = memo(({ datos, onReady }) => {
       .attr("transform", (d) => `translate(${arc.centroid(d)})`)
       .attr("dy", "0.35em")
       .style("text-anchor", "middle")
-      .style("font-size", isMobile ? "9px" : "14px")
+      .style("font-size", isMobile ? "9px" : isTablet ? "14px" : "16px")
       .style("font-weight", "700")
       .style("fill", "#fff")
       .style("text-shadow", "0 0 8px rgba(0,0,0,0.9)")
@@ -299,7 +302,7 @@ const DonutChartTipoTarea = memo(({ datos, onReady }) => {
       centerGroup.append("text")
         .attr("text-anchor", "middle")
         .attr("dy", "-1em")
-        .style("font-size", isMobile ? "10px" : "12px")
+        .style("font-size", isMobile ? "10px" : isTablet ? "12px" : "16px")
         .style("font-weight", "600")
         .style("fill", color(seleccionado))
         .text(seleccionado.length > (isMobile ? 8 : 12) ? seleccionado.substring(0, isMobile ? 8 : 12) + "..." : seleccionado);
@@ -307,7 +310,7 @@ const DonutChartTipoTarea = memo(({ datos, onReady }) => {
       centerGroup.append("text")
         .attr("text-anchor", "middle")
         .attr("dy", "0.5em")
-        .style("font-size", isMobile ? "20px" : "32px")
+        .style("font-size", isMobile ? "20px" : isTablet ? "32px" : "42px")
         .style("font-weight", "900")
         .style("fill", "#fff")
         .text(dataSel.cantidad.toLocaleString());
@@ -315,14 +318,14 @@ const DonutChartTipoTarea = memo(({ datos, onReady }) => {
       centerGroup.append("text")
         .attr("text-anchor", "middle")
         .attr("dy", "2.2em")
-        .style("font-size", isMobile ? "9px" : "11px")
+        .style("font-size", isMobile ? "9px" : isTablet ? "11px" : "14px")
         .style("fill", "#888")
         .text("sesiones");
     } else {
       centerGroup.append("text")
         .attr("text-anchor", "middle")
         .attr("dy", "-0.3em")
-        .style("font-size", isMobile ? "22px" : "36px")
+        .style("font-size", isMobile ? "22px" : isTablet ? "36px" : "48px")
         .style("font-weight", "900")
         .style("fill", "#00d9ff")
         .text(total.toLocaleString());
@@ -330,7 +333,7 @@ const DonutChartTipoTarea = memo(({ datos, onReady }) => {
       centerGroup.append("text")
         .attr("text-anchor", "middle")
         .attr("dy", "1.5em")
-        .style("font-size", isMobile ? "9px" : "13px")
+        .style("font-size", isMobile ? "9px" : isTablet ? "13px" : "16px")
         .style("font-weight", "600")
         .style("fill", "#888")
         .text("Sesiones Totales");
