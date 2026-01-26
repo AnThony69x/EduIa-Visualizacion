@@ -168,8 +168,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-.item-nav-lateral:hover .etiqueta-nav,
-.item-nav-lateral.activo .etiqueta-nav {
+.item-nav-lateral:hover .etiqueta-nav {
   opacity: 1;
   transform: translateX(0);
 }
