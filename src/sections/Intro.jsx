@@ -6,7 +6,7 @@ import imagen1 from "../assets/images/imagen1.png";
 import "../styles/intro.css";
 
 gsap.registerPlugin(ScrollTrigger);
-
+// hola que haces
 const Intro = () => {
   const seccionRef = useRef(null);
   const tituloRef = useRef(null);
