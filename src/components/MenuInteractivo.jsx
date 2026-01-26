@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import {
-  Menu,
-  X,
   Home,
   Users,
   Heart,
@@ -16,12 +14,9 @@ import {
 import "../styles/menu-interactivo.css";
 
 const MenuInteractivo = () => {
-  const [menuAbierto, setMenuAbierto] = useState(false);
   const [musicaActiva, setMusicaActiva] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [seccionActiva, setSeccionActiva] = useState("intro");
   const navRef = useRef(null);
-  const itemsRef = useRef([]);
   const audioRef = useRef(null);
   const logoRef = useRef(null);
 
@@ -49,11 +44,9 @@ const MenuInteractivo = () => {
     };
   }, []);
 
-  // Detectar scroll para cambiar estilo del navbar
+  // Detectar scroll para detectar sección activa
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-
       // Detectar sección activa
       const secciones = document.querySelectorAll("[data-seccion]");
       secciones.forEach((seccion) => {
@@ -68,26 +61,12 @@ const MenuInteractivo = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Animación inicial del navbar
+  // Animación inicial del nav lateral
   useEffect(() => {
     gsap.fromTo(
       navRef.current,
-      { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", delay: 0.5 }
-    );
-
-    // Animar items con stagger
-    gsap.fromTo(
-      itemsRef.current,
-      { y: -20, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: "back.out(1.7)",
-        delay: 0.8,
-      }
+      { x: -100, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.8, ease: "power3.out", delay: 0.5 }
     );
 
     // Animar logo
@@ -97,22 +76,6 @@ const MenuInteractivo = () => {
       { scale: 1, rotation: 0, duration: 0.8, ease: "elastic.out(1, 0.5)", delay: 0.3 }
     );
   }, []);
-
-  // Animación del menú móvil
-  useEffect(() => {
-    if (menuAbierto) {
-      gsap.fromTo(
-        ".menu-movil",
-        { y: -20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
-      );
-      gsap.fromTo(
-        ".menu-movil .item-nav",
-        { x: -30, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.3, stagger: 0.05, ease: "power2.out", delay: 0.1 }
-      );
-    }
-  }, [menuAbierto]);
 
   // Toggle música
   const toggleMusica = () => {
@@ -137,126 +100,59 @@ const MenuInteractivo = () => {
     if (seccion) {
       seccion.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-    setMenuAbierto(false);
-  };
-
-  // Animación hover de items
-  const handleItemHover = (index, entering) => {
-    if (entering && itemsRef.current[index]) {
-      gsap.to(itemsRef.current[index], {
-        y: -3,
-        scale: 1.05,
-        duration: 0.2,
-        ease: "power2.out",
-      });
-    } else if (itemsRef.current[index]) {
-      gsap.to(itemsRef.current[index], {
-        y: 0,
-        scale: 1,
-        duration: 0.2,
-        ease: "power2.out",
-      });
-    }
   };
 
   return (
     <>
-      {/* Navbar superior */}
-      <nav ref={navRef} className={`navbar-superior ${scrolled ? "scrolled" : ""}`}>
-        <div className="navbar-contenido">
-          {/* Logo */}
-          <div ref={logoRef} className="logo-navbar" onClick={() => navegarASeccion("intro")}>
-            <span className="logo-edu">Edu</span>
-            <span className="logo-ia">IA</span>
-            <div className="logo-brillo"></div>
-          </div>
+      {/* Logo superior */}
+      <div className="logo-flotante">
+        <div ref={logoRef} className="logo-navbar" onClick={() => navegarASeccion("intro")}>
+          <span className="logo-edu">Edu</span>
+          <span className="logo-ia">IA</span>
+          <div className="logo-brillo"></div>
+        </div>
 
-          {/* Navegación desktop */}
-          <ul className="nav-lista desktop">
-            {secciones.map((seccion, index) => {
-              const Icono = seccion.icono;
-              const esActivo = seccionActiva === seccion.id;
-              return (
-                <li
-                  key={seccion.id}
-                  ref={(el) => (itemsRef.current[index] = el)}
-                  className={`item-nav ${esActivo ? "activo" : ""}`}
-                  onClick={() => navegarASeccion(seccion.id)}
-                  onMouseEnter={() => handleItemHover(index, true)}
-                  onMouseLeave={() => handleItemHover(index, false)}
-                  style={{ "--item-color": seccion.color }}
-                >
+        {/* Botón de música */}
+        <button
+          className={`boton-musica ${musicaActiva ? "activo" : ""}`}
+          onClick={toggleMusica}
+          aria-label={musicaActiva ? "Pausar música" : "Reproducir música"}
+        >
+          {musicaActiva ? <Volume2 size={20} /> : <VolumeX size={20} />}
+          {musicaActiva && (
+            <div className="ondas-sonido">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          )}
+        </button>
+      </div>
+
+      {/* Menú lateral con puntos */}
+      <nav ref={navRef} className="menu-lateral">
+        <ul className="nav-lista-lateral">
+          {secciones.map((seccion) => {
+            const Icono = seccion.icono;
+            const esActivo = seccionActiva === seccion.id;
+            return (
+              <li
+                key={seccion.id}
+                className={`item-nav-lateral ${esActivo ? "activo" : ""}`}
+                onClick={() => navegarASeccion(seccion.id)}
+                style={{ "--item-color": seccion.color }}
+                title={seccion.nombre}
+              >
+                <div className="punto-nav"></div>
+                <div className="etiqueta-nav">
                   <Icono size={16} className="icono-nav" />
                   <span className="nombre-nav">{seccion.nombre}</span>
-                  <div className="indicador-activo"></div>
-                  <div className="hover-glow"></div>
-                </li>
-              );
-            })}
-          </ul>
-
-          {/* Controles derecha */}
-          <div className="navbar-controles">
-            {/* Botón de música */}
-            <button
-              className={`boton-musica ${musicaActiva ? "activo" : ""}`}
-              onClick={toggleMusica}
-              aria-label={musicaActiva ? "Pausar música" : "Reproducir música"}
-            >
-              {musicaActiva ? <Volume2 size={20} /> : <VolumeX size={20} />}
-              {musicaActiva && (
-                <div className="ondas-sonido">
-                  <span></span>
-                  <span></span>
-                  <span></span>
                 </div>
-              )}
-            </button>
-
-            {/* Botón hamburguesa móvil */}
-            <button
-              className={`boton-hamburguesa ${menuAbierto ? "activo" : ""}`}
-              onClick={() => setMenuAbierto(!menuAbierto)}
-              aria-label="Menú"
-            >
-              {menuAbierto ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Línea animada inferior */}
-        <div className="linea-progreso">
-          <div className="progreso-inner"></div>
-        </div>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
-
-      {/* Menú móvil desplegable */}
-      {menuAbierto && (
-        <div className="menu-movil">
-          <ul className="lista-movil">
-            {secciones.map((seccion) => {
-              const Icono = seccion.icono;
-              const esActivo = seccionActiva === seccion.id;
-              return (
-                <li
-                  key={seccion.id}
-                  className={`item-nav movil ${esActivo ? "activo" : ""}`}
-                  onClick={() => navegarASeccion(seccion.id)}
-                  style={{ "--item-color": seccion.color }}
-                >
-                  <Icono size={20} className="icono-nav" />
-                  <span>{seccion.nombre}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )}
-
-      {/* Overlay para menú móvil */}
-      {menuAbierto && (
-        <div className="overlay-movil" onClick={() => setMenuAbierto(false)} />
-      )}
     </>
   );
 };
